@@ -13,24 +13,22 @@ body{
   font-family: Arial, Helvetica, sans-serif;
 }
 
-
 /* =================================================================
                          🔵 TOP BAR
 ================================================================= */
 .top{
-  height:48px;
+  height:62px;
   background:#2d90c9;
   display:flex;
   align-items:center;
   justify-content:space-between;
   padding:0 25px;
   color:white;
-  position:fixed;        /* 🔥 FIXAT SUS */
+  position:fixed;
   top:0;
   left:0;
   width:100%;
   z-index:1000;
-  border-bottom:none;          /* fără linie albă */
 }
 
 .top-left{
@@ -41,76 +39,28 @@ body{
 
 .menu{
   font-size:30px;
-  cursor:pointer;
 }
 
 .logo{
-  height:30px;
-}
-
-.userbox{
-  background:#2588c4;
-  padding:6px 12px;
-  border-radius:5px;
-  display:flex;
-  align-items:center;
-  gap:8px;
+  height:42px;
 }
 
 
 /* =================================================================
-                         🔵 SIDEBAR
+                     🔵 SCOATEM SIDEBAR
 ================================================================= */
 .left{
-  width:90x;
-  background:#0f5575;
-  height:calc(100vh - 48px);
-  position:fixed;
-  top:48px;
-  left:0;
-  transition:.3s;
-  color:white;
+  display:none !important;
 }
-
-.left.collapsed{
-  width:55px;
-}
-.content.collapsed{
-  margin-left:60px;
-}
-
-
-
-.user{
-  padding:14px 18px;
-  display:flex;
-  align-items:center;
-  gap:10px;
-}
-
-.left.collapsed span{
-  display:none;
-}
-.left.collapsed .user{
-  justify-content:center;
-}
-
 
 
 /* =================================================================
                          🔵 CONTENT
 ================================================================= */
 .content{
-  margin-left:90;
-  margin-top:48px;     /* 🔥 OBLIGATORIU */
-  padding:20px 20px 25px 10px; 
-  transition:.3s;
-}
-
-
-.content.collapsed{
-  margin-left:55px;
-  margin-top:48px;
+  margin-left:0 !important;
+  margin-top:62px;
+  padding:25px;
 }
 
 
@@ -128,7 +78,7 @@ body{
   height:110px;
   border-radius:9px;
   color:white;
-  font-size:10px;
+  font-size:12px;
   font-weight:700;
   display:flex;
   flex-direction:column;
@@ -148,119 +98,77 @@ body{
 .reusita{background:#6da89f;}
 
 
-
 /* =================================================================
-                      🔵 SEMESTRU BOX + TITLU
+                      🔵 SEMESTRU BOX
 ================================================================= */
 .sem-box{
-    width:100%;
-    max-width:1250px;   /* 🔵 TABELUL MAI LAT */
-    margin:auto;
+  width:100%;
+  max-width:1200px;
+  margin:auto;
 }
 
 .sem-title{
-    max-width:1250px;    /* 🔵 HEADER ALBASTRU MAI ÎNGUST */
-    margin:0 auto 0 auto;
-    
-    background:linear-gradient(#4fa5e8,#1d8bd4);
-    color:white;
-    font-size:22px;
-    font-weight:700;
-    padding:18px;
-    border-radius:10px 10px 0 0;
-    border:1px solid #d8d8d8;
-    border-bottom:0;
+  background:linear-gradient(#4fa5e8,#1d8bd4);
+  color:white;
+  font-size:22px;
+  font-weight:700;
+  padding:18px;
+  border-radius:10px 10px 0 0;
 }
 
 
-
 /* =================================================================
-                     🔵 TABELUL EXACT CA ÎN IMAGINE
+                     🔵 TABEL LAT + ALINIAT CA ÎN SIME
 ================================================================= */
 .rez-table{
   width:100%;
   border-collapse:collapse;
-  font-size:14px;
-  background:white;
-  border:1px solid #d5d5d5;     /* RAMA GRI SUBȚIRE ÎN JUR */
-  border-radius:10px;
-  overflow:hidden;
-}
-
-/* HEADER */
-.rez-table thead th{
-  padding:6px 8px;
-  text-align:left;
-  font-size:14px;
-  font-weight:800;
-  background:#f5f6f7;
-  border-bottom:1px solid #d5d5d5; /* linie sub header */
-  border-right:none;               /* fără verticale */
-}
-
-/* CELULE */
-.rez-table td{
-  padding:8px 8px;
-  border-bottom:1px solid #e1e1e1; /* DOAR ORIZONTALE */
-  border-right:none;
   font-size:13px;
+  background:white;
+  border:1px solid #d5d5d5;
+  border-radius:10px;
+  overflow-x:auto;
+  display:block;
 }
 
-/* ULTIMUL RAND FARA LINIE JOS */
-.rez-table tr:last-child td{
-  border-bottom:none;
+.rez-table thead th{
+  padding:10px;
+  background:#f5f6f7;
+  border-bottom:1px solid #d5d5d5;
+  white-space:nowrap;
 }
 
+.rez-table td{
+  padding:10px;
+  border-bottom:1px solid #e1e1e1;
+  vertical-align:middle;
+}
 
-/* LĂȚIMI IDENTICE CA PLATFORMĂ */
+/* aliniere mai corecta coloane */
 .rez-table th:nth-child(1),
 .rez-table td:nth-child(1){
-  width:32%;
+  width:28%;
 }
 
 .rez-table th:nth-child(2),
 .rez-table td:nth-child(2){
-  width:36%;
+  width:34%;
 }
 
 .rez-table th:nth-child(3),
 .rez-table td:nth-child(3){
   width:12%;
-  font-weight:700;
+  text-align:center;
+  font-weight:bold;
 }
 
 .rez-table th:nth-child(4),
 .rez-table td:nth-child(4){
-  width:20%;
-  font-weight:700;
-}
-/* ===== ALINIERE PERFECTĂ ===== */
-
-/* Celulele din tabel pe verticală */
-.rez-table td{
-  padding:10px 10px;
-  vertical-align:middle; /* ⬇️ NOTELE JOS */
-  font-size:13px;    
+  width:16%;
+  text-align:center;
+  font-weight:bold;
 }
 
-/* Coloana TEZA sus */
-.rez-table td:nth-child(3){
-  vertical-align:top;         /* ⬆️ TEZA SUS */
-  font-size:13px;
-  font-weight:800;
-}
-
-/* MEDIA MAI LATĂ + SUS */
-.rez-table th:nth-child(4),
-.rez-table td:nth-child(4){
-  width:26%;                  /* 🔥 mai lată */
-  vertical-align:top;
-  font-size:13px;
-  font-weight:800;
-}
-.rez-table th{
-  white-space:nowrap;
-}
 
 
 
