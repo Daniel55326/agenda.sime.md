@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Electronică</title>
+
+<style>
+
+*{box-sizing:border-box;}
+
+body{
+    margin:0;
+    font-family: Arial, Helvetica, sans-serif;
+    background:#eef1f4;
+    color:#333;
+}
+
+/* BARA ALBASTRĂ SUS */
+.topbar{
+    background:#2d90c9;
+    height:72px;
+    display:flex;
+    align-items:center;
+    padding-left:40px;
+}
+.topbar img{
+    height:46px;
+}
+
+/* ZONA DE SUS - CERCURI + LOGIN */
+.hero{
+    padding-top:45px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    gap:70px;
+}
+
+.hero-circles{
+    display:flex;
+    gap:45px;
+}
+
+.hero-circles img{
+    width:280px;
+    height:280px;
+    border-radius:50%;
+}
+
+.hero-logins{
+    display:flex;
+    flex-direction:column;
+    gap:25px;
+}
+
+.hero-logins img{
+    width:260px;
+    cursor:pointer;
+}
+
+/* CARD ALB */
+.card{
+    max-width:1150px;
+    margin:30px auto 70px;
+    background:white;
+    padding:45px 80px 55px;
+    box-shadow:0 0 12px rgba(0,0,0,0.08);
+}
+
+.intro-text{
+    text-align:center;
+    font-size:18px;
+    line-height:1.7;
+}
+
+.separator{
+    height:4px;
+    background:#8dd0ff;
+    width:100%;
+    margin:35px 0;
+}
+
+.feature-row{
+    display:flex;
+    justify-content:space-between;
+    text-align:center;
+}
+
+.feature img{
+    height:95px;
+}
+.feature-title{
+    margin-top:10px;
+    font-size:26px;
+    font-weight:700;
+}
+.feature-desc{
+    width:260px;
+    margin:auto;
+    font-size:17px;
+    color:#555;
+}
+
+/* FOOTER */
+.footer{
+    background:white;
+    padding:40px 40px 55px;
+    display:flex;
+    justify-content:center;
+    gap:120px;
+}
+
+.footer img{
+    height:70px;
+}
+
+/* ---- LOGIN MODAL ---- */
+#overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,0.45);
+  display:none;
+  z-index:5;
+}
+
+#loginModal{
+  position:fixed;
+  left:50%;
+  top:50%;
+  transform:translate(-50%,-50%);
+  width:430px;
+  background:white;
+  border-radius:6px;
+  box-shadow:0 0 18px rgba(0,0,0,0.35);
+  display:none;
+  z-index:10;
+  overflow:hidden;
+}
+
+.modal-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 18px;
+  border-bottom:1px solid #ddd;
+  font-size:17px;
+  font-weight:600;
+}
+
+.modal-header span{
+  cursor:pointer;
+  font-size:20px;
+}
+
+.modal-body{
+  padding:35px 40px;
+}
+
+.modal-body h2{
+  text-align:center;
+  margin-top:0;
+}
+
+.input{
+  width:100%;
+  padding:12px;
+  border-radius:4px;
+  outline:none;
+  margin-bottom:15px;
+  border:1px solid #b7d5ec;
+}
+
+.input.pass{
+  border:1px solid #d3d3d3;
+}
+
+.login-btn{
+  width:100%;
+  padding:12px;
+  border:none;
+  background:#d3e7f6;
+  border-radius:4px;
+  cursor:pointer;
+  font-size:16px;
+}
+
+.create{
+  text-align:right;
+  margin-top:12px;
+}
+
+.create a{
+  color:#0b6aa8;
+  text-decoration:none;
+}
+
+/* ------------- RESPONSIVE = TELEFON ------------- */
+
+@media(max-width:900px){
+
+    .hero{
+        flex-direction:column;
+        gap:35px;
+        padding-top:25px;
+    }
+
+    .hero-circles{
+        gap:18px;
+    }
+
+    .hero-circles img{
+        width:200px;
+        height:200px;
+    }
+
+    .hero-logins img{
+        width:200px;
+        margin-left:10px;
+    }
+
+    .card{
+        max-width:95%;
+        padding:25px 15px;
+    }
+
+    .feature-row{
+        flex-direction:column;
+        gap:35px;
+    }
+
+    /* FOOTER FIX PERFECT PE TELEFON */
+    .footer{
+        flex-direction:column;
+        gap:25px;
+        padding:25px 0 40px;
+        align-items:center;
+    }
+
+    .footer img{
+        height:55px;
+        width:auto;
+    }
+}
+
+</style>
+
+</head>
+<body>
+
+<header class="topbar">
+    <img src="logo_AgendaElectronica_white.png">
+</header>
+
+<section class="hero">
+    <div class="hero-circles">
+        <img src="gen-blue.png">
+        <img src="pt-grey.png">
+    </div>
+
+    <div class="hero-logins">
+        <img src="Parinte_login_btn_small.png" onclick="openModal('parinte')">
+        <img src="Elev_login_btn_small.png" onclick="openModal('elev')">
+    </div>
+</section>
+
+<section class="card">
+
+<p class="intro-text">
+Agenda Electronică este o platformă modernă și intuitivă creată pentru a vă sprijini pe voi,
+elevii, și pe părinții voștri în monitorizarea activității școlare. Indiferent dacă este
+vorba de orar, note sau evenimente școlare, Agenda Electronică vă oferă acces rapid și facil
+de pe telefon sau calculator.
+</p>
+
+<div class="separator"></div>
+
+<div class="feature-row">
+
+<div class="feature">
+<img src="paginapublica_agenda.png">
+<p class="feature-title">Agenda</p>
+<p class="feature-desc">Consultați orarul</p>
+</div>
+
+<div class="feature">
+<img src="paginapublica_temesilectii.png">
+<p class="feature-title">Teme și lecții</p>
+<p class="feature-desc">Urmăriți în timp real lista temelor și lecțiile de făcut</p>
+</div>
+
+<div class="feature">
+<img src="paginapublica_absente.png">
+<p class="feature-title">Absențe</p>
+<p class="feature-desc">Vizualizarea absențelor</p>
+</div>
+
+</div>
+
+<div class="separator"></div>
+
+<div class="feature-row">
+
+<div class="feature">
+<img src="paginapublica_rezultate.png">
+<p class="feature-title">Rezultate</p>
+<p class="feature-desc">Monitorizarea reușitei școlare</p>
+</div>
+
+<div class="feature">
+<img src="paginapublica_mesaje.png">
+<p class="feature-title">Mesaje</p>
+<p class="feature-desc">
+Fiți la curent cu ceea ce se întâmplă la școală sau în clasă. Ținem legătura!
+</p>
+</div>
+
+<div class="feature">
+<img src="paginapublica_mesaje (1).png">
+<p class="feature-title">Profesori</p>
+<p class="feature-desc">Discipline și cadre didactice</p>
+</div>
+
+</div>
+
+</section>
+
+<footer class="footer">
+    <img src="MEC_log.png">
+    <img src="logo_EU4Moldova_Local-01.png">
+    <img src="EU_Logo_RO.png">
+    <img src="ADC_LOGO_JPG.png">
+</footer>
+
+<!-- OVERLAY -->
+<div id="overlay"></div>
+
+<!-- MODAL -->
+<div id="loginModal">
+
+<div class="modal-header">
+    Autentificare
+    <span onclick="closeModal()">✕</span>
+</div>
+
+<div class="modal-body">
+    <h2 id="modalTitle">Autentificare părinte</h2>
+
+    <input class="input" type="text" placeholder="username">
+    <input class="input pass" type="password" placeholder="password">
+
+    <button class="login-btn" onclick="goDashboard()">Autentificare</button>
+
+    <div class="create">
+        <a href="#">Creează cont</a>
+    </div>
+</div>
+
+</div>
+
+<script>
+function goDashboard(){
+  window.location.href = "dashboard.html";
+}
+function openModal(type){
+  document.getElementById("overlay").style.display="block";
+  document.getElementById("loginModal").style.display="block";
+
+  if(type==="parinte"){
+      document.getElementById("modalTitle").innerText="Autentificare părinte";
+  } else {
+      document.getElementById("modalTitle").innerText="Autentificare elev";
+  }
+}
+function closeModal(){
+  document.getElementById("overlay").style.display="none";
+  document.getElementById("loginModal").style.display="none";
+}
+</script>
+
+</body>
+</html>

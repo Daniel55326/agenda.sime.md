@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reușita</title>
+
+<style>
+/* ===== BACKGROUND GENERAL ===== */
+body{
+  margin:0;
+  background:#e9eef3;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =================================================================
+                         🔵 TOP BAR
+================================================================= */
+.top{
+  height:48px;
+  background:#2d90c9;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  color:white;
+  position:fixed;        /* 🔥 FIXAT SUS */
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  border-bottom:none;          /* fără linie albă */
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.menu{
+  font-size:30px;
+  cursor:pointer;
+}
+
+.logo{
+  height:30px;
+}
+
+.userbox{
+  background:#2588c4;
+  padding:6px 12px;
+  border-radius:5px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+
+/* =================================================================
+                         🔵 SIDEBAR
+================================================================= */
+.left{
+  width:90x;
+  background:#0f5575;
+  height:calc(100vh - 48px);
+  position:fixed;
+  top:48px;
+  left:0;
+  transition:.3s;
+  color:white;
+}
+
+.left.collapsed{
+  width:55px;
+}
+.content.collapsed{
+  margin-left:60px;
+}
+
+
+
+.user{
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.left.collapsed span{
+  display:none;
+}
+.left.collapsed .user{
+  justify-content:center;
+}
+
+
+
+/* =================================================================
+                         🔵 CONTENT
+================================================================= */
+.content{
+  margin-left:90;
+  margin-top:48px;     /* 🔥 OBLIGATORIU */
+  padding:20px 20px 25px 10px; 
+  transition:.3s;
+}
+
+
+.content.collapsed{
+  margin-left:55px;
+  margin-top:48px;
+}
+
+
+/* =================================================================
+                         🔵 TILES SUS
+================================================================= */
+.tiles{
+  display:grid;
+  grid-template-columns:repeat(4, 1fr);
+  gap:10px;
+  margin-bottom:20px;
+}
+
+.tile{
+  height:110px;
+  border-radius:9px;
+  color:white;
+  font-size:10px;
+  font-weight:700;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.tile img{
+  height:45px;
+  margin-bottom:5px;
+}
+
+.agenda{background:#3fa0ff;}
+.dosar{background:#ffc34a;}
+.absente{background:#ff6f4a;}
+.reusita{background:#6da89f;}
+
+
+
+/* =================================================================
+                      🔵 SEMESTRU BOX + TITLU
+================================================================= */
+.sem-box{
+    width:100%;
+    max-width:1250px;   /* 🔵 TABELUL MAI LAT */
+    margin:auto;
+}
+
+.sem-title{
+    max-width:1250px;    /* 🔵 HEADER ALBASTRU MAI ÎNGUST */
+    margin:0 auto 0 auto;
+    
+    background:linear-gradient(#4fa5e8,#1d8bd4);
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    padding:18px;
+    border-radius:10px 10px 0 0;
+    border:1px solid #d8d8d8;
+    border-bottom:0;
+}
+
+
+
+/* =================================================================
+                     🔵 TABELUL EXACT CA ÎN IMAGINE
+================================================================= */
+.rez-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:14px;
+  background:white;
+  border:1px solid #d5d5d5;     /* RAMA GRI SUBȚIRE ÎN JUR */
+  border-radius:10px;
+  overflow:hidden;
+}
+
+/* HEADER */
+.rez-table thead th{
+  padding:6px 8px;
+  text-align:left;
+  font-size:14px;
+  font-weight:800;
+  background:#f5f6f7;
+  border-bottom:1px solid #d5d5d5; /* linie sub header */
+  border-right:none;               /* fără verticale */
+}
+
+/* CELULE */
+.rez-table td{
+  padding:8px 8px;
+  border-bottom:1px solid #e1e1e1; /* DOAR ORIZONTALE */
+  border-right:none;
+  font-size:13px;
+}
+
+/* ULTIMUL RAND FARA LINIE JOS */
+.rez-table tr:last-child td{
+  border-bottom:none;
+}
+
+
+/* LĂȚIMI IDENTICE CA PLATFORMĂ */
+.rez-table th:nth-child(1),
+.rez-table td:nth-child(1){
+  width:32%;
+}
+
+.rez-table th:nth-child(2),
+.rez-table td:nth-child(2){
+  width:36%;
+}
+
+.rez-table th:nth-child(3),
+.rez-table td:nth-child(3){
+  width:12%;
+  font-weight:700;
+}
+
+.rez-table th:nth-child(4),
+.rez-table td:nth-child(4){
+  width:20%;
+  font-weight:700;
+}
+/* ===== ALINIERE PERFECTĂ ===== */
+
+/* Celulele din tabel pe verticală */
+.rez-table td{
+  padding:10px 10px;
+  vertical-align:middle; /* ⬇️ NOTELE JOS */
+  font-size:13px;    
+}
+
+/* Coloana TEZA sus */
+.rez-table td:nth-child(3){
+  vertical-align:top;         /* ⬆️ TEZA SUS */
+  font-size:13px;
+  font-weight:800;
+}
+
+/* MEDIA MAI LATĂ + SUS */
+.rez-table th:nth-child(4),
+.rez-table td:nth-child(4){
+  width:26%;                  /* 🔥 mai lată */
+  vertical-align:top;
+  font-size:13px;
+  font-weight:800;
+}
+.rez-table th{
+  white-space:nowrap;
+}
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<!-- TOP BAR -->
+<div class="top">
+
+  <div class="top-left">
+       <div class="menu" onclick="toggleSidebar()">☰</div>
+    <a href="index.html">
+  <img class="logo" src="logo_AgendaElectronica_white.png">
+</a>
+  </div>
+
+  <div class="userbox">
+           
+    <div class="tri">▼</div>
+  </div>
+
+</div>
+
+
+<!-- SIDEBAR -->
+<div class="left collapsed" id="sidebar">
+  <div class="user">
+    <svg width="22" height="22" stroke="white" fill="none">
+      <circle cx="11" cy="7" r="4"></circle>
+      <path d="M4 20c0-4 3-7 7-7s7 3 7 7"></path>
+    </svg>
+    <span>LUNGU ANDREEA</span>
+  </div>
+</div>
+
+
+<!-- PAGE CONTENT -->
+<div class="content collapsed" id="page">
+
+
+  <!-- TILES -->
+  <div class="tiles">
+
+    <div class="tile agenda" onclick="location.href='dashboard.html'">
+      <img src="paginapublica_agenda.png">
+      Agenda
+    </div>
+
+    <div class="tile dosar" onclick="location.href='dosar.html'">
+      <img src="paginapublica_temesilectii.png">
+      Dosar
+    </div>
+
+    <div class="tile absente" onclick="location.href='absente.html'">
+      <img src="paginapublica_absente.png">
+      Absențe
+    </div>
+
+    <div class="tile reusita">
+      <img src="paginapublica_rezultate.png">
+      Reușita
+    </div>
+
+  </div>
+
+  <!-- SEM I -->
+  <div class="sem-box">
+
+    <div class="sem-title">
+        Semestrul I
+    </div>
+
+    <div class="table-wrap">
+        <table class="rez-table">
+            <thead>
+                <tr>
+                    <th>Disciplina</th>
+                    <th>Lista notelor</th>
+                    <th>Teza</th>
+                    <th>Media semestrială</th>
+                </tr>
+            </thead>
+
+ <tbody>
+
+<tr>
+    <td>Biologia</td>
+    <td>8, 9, 9</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Chimia</td>
+    <td>9, 9, 9</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Geografia</td>
+    <td>9, 10, 9</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Informatica</td>
+    <td>8, 8</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Istoria românilor și universală</td>
+    <td>7, 9, 10</td>
+    <td><b>8</b></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Limba engleză</td>
+    <td>7, 10, 10</td>
+    <td><b>9</b></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Limba germană</td>
+    <td>8, 8, 8, 8, 8</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Limba română</td>
+    <td>8, 7, 8, 8, 10, 10</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Literatura universală</td>
+    <td>9, 10</td>
+    <td><b>9</b></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Matematica</td>
+    <td>8, 8, 7</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Educația fizică</td>
+    <td>S, FB, B</td>
+    <td></td>
+    <td></td>
+</tr>
+
+<tr>
+    <td>Fizica</td>
+    <td>8, 7, 9</td>
+    <td></td>
+    <td></td>
+</tr>
+
+</tbody>
+
+            </tbody>
+        </table>
+    </div>
+
+</div>
+
+<!-- ================== SEMESTRUL 2 ================== -->
+<div class="sem-box">
+  <div class="sem-title">
+    Semestrul II
+  </div>
+</div>
+
+
+<script>
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("collapsed");
+  document.getElementById("page").classList.toggle("collapsed");
+}
+
+document.getElementById("usr").innerText = "";
+
+</script>
+
+</body>
+<script>
+function calculeazaMediile() {
+  document.querySelectorAll(".rez-table tbody tr").forEach(row => {
+
+    let listaNote = row.children[1].innerText;
+    let teza = row.children[2].innerText.trim();
+
+    // Extragem notele și ignorăm FB, S, B etc
+    let note = listaNote
+      .split(/[, ;]+/)
+      .map(n => parseFloat(n))
+      .filter(n => !isNaN(n));
+
+    if(note.length === 0) return;
+
+    let suma = note.reduce((a,b)=>a+b,0);
+    let mediaNote = suma / note.length;
+
+    let mediaFinala = mediaNote;
+
+    // Dacă există teză numerică -> aplicăm formula Sime
+    let notaTeza = parseFloat(teza);
+    if(!isNaN(notaTeza)){
+      mediaFinala = (mediaNote + notaTeza) / 2;
+    }
+
+    // Afișăm cu virgulă ca în platformă
+    row.children[3].innerText = mediaFinala
+      .toFixed(1)
+      .replace(".", ",");
+  });
+}
+
+window.onload = calculeazaMediile;
+</script>
+
+</html>

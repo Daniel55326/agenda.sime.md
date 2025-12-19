@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agenda Electronică - Dosar</title>
+
+<style>
+
+/* ===== BACKGROUND GENERAL ===== */
+body{
+  margin:0;
+  background:#eef1f4;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+
+/* =================================================================
+                         🔵 TOP BAR
+================================================================= */
+.top{
+  height:48px;
+  background:#2d90c9;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  color:white;
+  position:fixed;        /* 🔥 FIXAT SUS */
+  top:0;
+  left:0;
+  width:100%;
+  z-index:1000;
+  border-bottom:none;          /* fără linie albă */
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.menu{
+  font-size:30px;
+  cursor:pointer;
+}
+
+.logo{
+  height:30px;
+}
+
+.userbox{
+  background:#2588c4;
+  padding:6px 12px;
+  border-radius:5px;
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+
+
+
+
+/* =================================================================
+                         🔵 SIDEBAR
+================================================================= */
+.left{
+  width:90x;
+  background:#0f5575;
+  height:calc(100vh - 48px);
+  position:fixed;
+  top:48px;
+  left:0;
+  transition:.3s;
+  color:white;
+}
+
+.left.collapsed{
+  width:55px;
+}
+.content.collapsed{
+  margin-left:60px;
+}
+
+
+
+.user{
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.left.collapsed span{
+  display:none;
+}
+.left.collapsed .user{
+  justify-content:center;
+}
+
+
+
+/* =================================================================
+                         🔵 CONTENT
+================================================================= */
+.content{
+  margin-left:200px;
+  padding:25px;
+  transition:.3s;
+  margin-top:62px;
+}
+
+.content.collapsed{
+  margin-left:70px;
+}
+
+
+/* =================================================================
+                         🔵 TILES
+================================================================= */
+.tiles{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-bottom:18px;
+}
+
+.tile{
+  width:150px;
+  height:110px;
+  border-radius:9px;
+  color:white;
+  font-size:14px;
+  font-weight:700;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.tile img{
+  height:45px;
+  margin-bottom:4px;
+}
+
+.agenda{background:#3fa0ff;}
+.dosar{background:#ffc34a;}
+.absente{background:#ff6f4a;}
+.reusita{background:#6da89f;}
+
+
+
+/* =================================================================
+                      🔵 CARD (profil dosar)
+================================================================= */
+.card{
+  max-width:920px;
+  margin:0 auto 28px;
+  background:white;
+  box-shadow:0 2px 14px rgba(0,0,0,.12);
+  border-radius:8px;
+  padding:28px;
+  text-align:center;
+}
+
+.avatar{
+  width:240px;
+  height:240px;
+  border-radius:50%;
+  border:6px solid #3f7f9b;
+  margin:auto;
+}
+
+.name{
+  margin-top:10px;
+  font-size:26px;
+  font-weight:800;
+  color:#2f6e8c;
+}
+
+.info{
+  font-size:17px;
+  line-height:1.7;
+  margin-top:10px;
+}
+
+
+
+/* =================================================================
+                     🔵 TABEL DOSAR (profesori)
+================================================================= */
+.table{
+  max-width:920px;
+  margin:0 auto 40px;
+  background:white;
+  border-radius:8px;
+  box-shadow:0 2px 14px rgba(0,0,0,.12);
+  overflow:hidden;
+}
+
+.table-wrapper{
+  width:100%;
+}
+
+table{
+  width:100%;
+  border-collapse:collapse;
+  background:white;
+}
+
+/* DOAR LINII ORIZONTALE, TEXT MIC, IDENTIC REZULTAT */
+table thead th{
+  background:#f5f5f5;
+  font-size:14px;
+  font-weight:700;
+  text-align:left;
+  padding:8px 10px;
+  border-bottom:1px solid #dcdcdc;
+  border-right:none;
+}
+
+table tbody td{
+  font-size:13px;
+  padding:8px 10px;
+  border-bottom:1px solid #e3e3e3;
+  border-right:none;
+}
+
+table tbody tr:last-child td{
+  border-bottom:none;
+}
+
+
+
+/* =================================================================
+                 🔵 REUȘITA - TITLU SEMESTRU
+================================================================= */
+.sem-title{
+    background:linear-gradient(#4fa5e8,#1d8bd4);
+    color:white;
+    font-size:22px;
+    font-weight:700;
+    padding:18px;
+    border-radius:10px 10px 0 0;
+    border:1px solid #d8d8d8;
+    border-bottom:0;
+}
+
+
+
+/* =================================================================
+                 🔵 REUȘITA - TABEL NOTE
+================================================================= */
+.rez-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:12px;
+  background:white;
+  border:1px solid #d5d5d5;
+  border-radius:10px;
+  overflow:hidden;
+}
+
+/* HEADER */
+.rez-table thead th{
+  padding:8px 10px;
+  text-align:left;
+  font-size:13px;
+  background:#f5f6f7;
+  border-bottom:1px solid #d5d5d5;
+  border-right:none;
+}
+
+/* CELULE */
+.rez-table td{
+  padding:9px 10px;
+  border-bottom:1px solid #e1e1e1;
+  border-right:none;
+}
+
+/* Ultimul rând fără linie */
+.rez-table tr:last-child td{
+  border-bottom:none;
+}
+
+/* Lățimi corecte */
+.rez-table th:nth-child(1),
+.rez-table td:nth-child(1){
+  width:32%;
+}
+
+.rez-table th:nth-child(2),
+.rez-table td:nth-child(2){
+  width:36%;
+}
+
+.rez-table th:nth-child(3),
+.rez-table td:nth-child(3){
+  width:12%;
+  font-weight:700;
+}
+
+.rez-table th:nth-child(4),
+.rez-table td:nth-child(4){
+  width:20%;
+  font-weight:700;
+}
+
+
+
+/* =================================================================
+                     🔵 MOBILE
+================================================================= */
+@media(max-width:900px){
+
+  .content{
+    margin-left:65px;
+    padding:18px;
+  }
+
+  .tile{
+    width:110px;
+    height:105px;
+    font-size:13px;
+  }
+
+  .tile img{
+    height:40px;
+  }
+
+  .card{
+    width:95%;
+    padding:22px;
+  }
+
+  .avatar{
+    width:200px;
+    height:200px;
+  }
+
+  .table,
+  .rez-table{
+    width:95%;
+  }
+}
+
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+  <div class="top-left">
+    <div class="menu" onclick="toggleSidebar()">☰</div>
+    <a href="index.html">
+  <img class="logo" src="logo_AgendaElectronica_white.png">
+</a>
+
+  </div>
+
+  <div class="userbox">
+     ▼
+  </div>
+
+</div>
+
+<div class="left collapsed" id="sidebar">
+  <div class="user">
+    <svg width="22" height="22" stroke="white" fill="none">
+      <circle cx="11" cy="7" r="4"></circle>
+      <path d="M4 20c0-4 3-7 7-7s7 3 7 7"></path>
+    </svg>
+    <span>LUNGU ANDREEA</span>
+  </div>
+</div>
+
+
+<div class="content collapsed" id="page">
+
+  <div class="tiles">
+    <div class="tile agenda" onclick="location.href='dashboard.html'">
+      <img src="paginapublica_agenda.png">Agenda
+    </div>
+
+    <div class="tile dosar">
+      <img src="paginapublica_temesilectii.png">Dosar
+    </div>
+
+    <div class="tile absente" onclick="location.href='absente.html'">
+      <img src="paginapublica_absente.png">Absențe
+    </div>
+
+    <div class="tile reusita" onclick="location.href='reusita.html'">
+      <img src="paginapublica_rezultate.png">Reușita
+    </div>
+  </div>
+
+
+  <div class="card">
+      <img class="avatar" src="paginapublica_card_elevi_f.png">
+      <div class="name">LUNGU BIANCA-ANDREEA</div>
+
+      <div class="info">
+        Data nașterii: <b>04.10.2008</b><br>
+        Cod permanent: <b>EC05852686</b><br>
+        Clasa: <b>11C</b><br>
+        Diriginte: <b>CÎRLICIUC MARIANA</b>
+      </div>
+  </div>
+
+
+  <div class="table">
+    <table>
+      <thead>
+        <tr>
+          <th>Disciplina școlară</th>
+          <th>Profesorul</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr><td>Biologia</td><td>MIȚELEA STELA</td></tr>
+        <tr><td>Chimia</td><td>CÎRLICIUC MARIANA</td></tr>
+        <tr><td>Dezvoltarea personală</td><td>CÎRLICIUC MARIANA</td></tr>
+        <tr><td>Educația fizică</td><td>FOCȘA NATALIA</td></tr>
+        <tr><td>Educație pentru societate</td><td>ANTONOV-LOGHIN OXANA</td></tr>
+        <tr><td>Fizica. Astronomia</td><td>PÎSLARI TATIANA</td></tr>
+        <tr><td>Geografia</td><td>MARIAN CAMELIA</td></tr>
+        <tr><td>Informatica</td><td>VASILACHE GRIGORE</td></tr>
+        <tr><td>Limba engleză</td><td>GÎRLEA CORNELIA</td></tr>
+        <tr><td>Limba franceză</td><td>GUȚU ELENA</td></tr>
+        <tr><td>Limba germană</td><td>GÎRLEA OLESEA</td></tr>
+        <tr><td>Limba română</td><td>MOCANU CĂTĂLINA</td></tr>
+        <tr><td>Literatura universală</td><td>CAZAC-RABEI ANA</td></tr>
+        <tr><td>Matematică</td><td>LUPUȘOR MARIA</td></tr>
+      </tbody>
+
+    </table>
+  </div>
+
+</div>
+
+
+<script>
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("collapsed");
+  document.getElementById("page").classList.toggle("collapsed");
+}
+
+</script>
+
+</body>
+</html>

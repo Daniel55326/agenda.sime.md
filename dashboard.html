@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard - Agenda Electronică</title>
+
+<style>
+
+body{
+  margin:0;
+  background:#e9eef3;
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+/* TOP BAR */
+.top{
+  height:72px;
+  background:#2d90c9;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 25px;
+  color:white;
+}
+
+.top-left{
+  display:flex;
+  align-items:center;
+  gap:15px;
+}
+
+.menu{
+  font-size:28px;
+  cursor:pointer;
+}
+
+.logo{
+  height:45px;
+}
+
+.userbox{
+  background:#2588c4;
+  padding:5px 15px;
+  border-radius:1px;
+  margin-right:1px;
+}
+
+/* LEFT SIDEBAR */
+.left{
+  width:200px;
+  background:#0f5575;
+  height:calc(100vh - 72px);
+  position:fixed;
+  top:72px;
+  left:0;
+  transition:.3s;
+  color:white;
+}
+
+.left.collapsed{ width:65px; }
+
+.user{
+  padding:14px 18px;
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.left.collapsed span{
+  display:none;
+}
+.left.collapsed .user{
+  justify-content:center;
+}
+
+
+/* CONTENT */
+.content{
+  margin-left:200px;
+  padding:35px;
+  transition:.3s;
+}
+
+.content.collapsed{
+  margin-left:70px;
+}
+
+/* ---- TILE GRID ---- */
+.tiles{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+  max-width:800px;
+  margin:auto;
+}
+
+.tile{
+  height:150px;
+  border-radius:9px;
+  color:white;
+  font-size:26px;
+  font-weight:700;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  text-align:center;
+}
+
+.tile img{
+  height:80px;
+  margin-bottom:5px;
+}
+
+.agenda{background:#3fa0ff;}
+.dosar{background:#ffc34a;}
+.absente{background:#ff6f4a;}
+.reusita{background:#6da89f;}
+
+
+/* ---------- RESPONSIVE (TELEFON) ---------- */
+@media(max-width:900px){
+
+  .content{
+    margin-left:65px;
+    padding:22px;
+  }
+
+  .tiles{
+    grid-template-columns:1fr 1fr;
+    gap:14px;
+  }
+
+  .tile{
+    height:135px;
+    font-size:24px;
+  }
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="top">
+
+  <div class="top-left">
+    <div class="menu" onclick="toggleSidebar()">☰</div>
+   <a href="index.html">
+  <img class="logo" src="logo_AgendaElectronica_white.png">
+</a>
+
+  </div>
+
+  <div class="userbox">
+     ▼
+  </div>
+
+</div>
+
+<div class="left collapsed" id="sidebar">
+  <div class="user">
+    <svg width="22" height="22" stroke="white" fill="none">
+      <circle cx="11" cy="7" r="4"></circle>
+      <path d="M4 20c0-4 3-7 7-7s7 3 7 7"></path>
+    </svg>
+    <span>LUNGU ANDREEA</span>
+  </div>
+</div>
+
+
+<div class="content collapsed" id="page">
+
+  <div class="tiles">
+
+    <div class="tile agenda" onclick="location.href='agenda.html'">
+      <img src="paginapublica_agenda.png">
+      Agenda
+    </div>
+
+    <div class="tile dosar" onclick="location.href='dosar.html'">
+      <img src="paginapublica_temesilectii.png">
+      Dosar
+    </div>
+
+    <div class="tile absente" onclick="location.href='absente.html'">
+      <img src="paginapublica_absente.png">
+      Absențe
+    </div>
+
+    <div class="tile reusita" onclick="location.href='reusita.html'">
+      <img src="paginapublica_rezultate.png">
+      Reușita
+    </div>
+
+  </div>
+
+</div>
+
+
+<script>
+
+function toggleSidebar(){
+  document.getElementById("sidebar").classList.toggle("collapsed");
+  document.getElementById("page").classList.toggle("collapsed");
+}
+
+</script>
+
+</body>
+</html>
