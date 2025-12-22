@@ -1,382 +1,578 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="ro">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Agenda Electronică</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Agenda Electronică</title>
+  <style>
+    :root{
+      --brand:#3099C9;
+      --brand-soft:#cfeaf6;
+      --line:#8ccbe3;
+      --text:#222;
+      --muted:#6b6b6b;
+      --bg:#efefef;
+      --card:#ffffff;
+      --shadow: 0 2px 0 rgba(0,0,0,.04), 0 8px 24px rgba(0,0,0,.08);
+    }
 
-<style>
+    *{ box-sizing:border-box; }
+    html,body{ height:100%; }
+    body{
+      margin:0;
+      font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+    }
 
-*{box-sizing:border-box;}
+    /* Top bar */
+    .topbar{
+      background: var(--brand);
+      padding: env(safe-area-inset-top) 0 0 0;
+      border-bottom: 2px solid rgba(0,0,0,.08);
+    }
+    .brand{
+      height: 94px;
+      display:flex;
+      align-items:flex-end;
+      gap:10px;
+      padding: 14px 16px 14px 16px;
+    }
+    .brand-mark{
+      width:42px; height:44px;
+      background: rgba(255,255,255,.85);
+      border-radius: 3px;
+      position:relative;
+      overflow:hidden;
+    }
+    .brand-mark:after{
+      content:"";
+      position:absolute;
+      left:0; right:0;
+      bottom:-10px;
+      margin:auto;
+      width: 0; height: 0;
+      border-left: 21px solid transparent;
+      border-right: 21px solid transparent;
+      border-top: 14px solid rgba(255,255,255,.85);
+    }
+    .brand-a{
+      position:absolute;
+      left:0; right:0; top:5px;
+      text-align:center;
+      font-weight:800;
+      color: var(--brand);
+      font-size: 28px;
+      letter-spacing:.5px;
+    }
+    .brand-text{
+      padding-bottom: 4px;
+    }
+    .brand-title{
+      color:#fff;
+      font-weight:700;
+      letter-spacing:4px;
+      font-size: 30px;
+      line-height: 1;
+    }
+    .brand-sub{
+      color:#fff;
+      font-weight:300;
+      letter-spacing:6px;
+      font-size: 22px;
+      line-height: 1.05;
+    }
 
-body{
-    margin:0;
-    font-family: Arial, Helvetica, sans-serif;
-    background:#eef1f4;
-    color:#333;
-}
-
-/* BARA ALBASTRĂ SUS */
-.topbar{
-    background:#2d90c9;
-    height:72px;
-    display:flex;
-    align-items:center;
-    padding-left:40px;
-}
-.topbar img{
-    height:46px;
-}
-
-/* ZONA DE SUS - CERCURI + LOGIN */
-.hero{
-    padding-top:45px;
-    display:flex;
-    justify-content:center;
-    align-items:center;
-    gap:70px;
-}
-
-.hero-circles{
-    display:flex;
-    gap:45px;
-}
-
-.hero-circles img{
-    width:280px;
-    height:280px;
-    border-radius:50%;
-}
-
-.hero-logins{
-    display:flex;
-    flex-direction:column;
-    gap:25px;
-}
-
-.hero-logins img{
-    width:260px;
-    cursor:pointer;
-}
-
-/* CARD ALB */
-.card{
-    max-width:1150px;
-    margin:30px auto 70px;
-    background:white;
-    padding:45px 80px 55px;
-    box-shadow:0 0 12px rgba(0,0,0,0.08);
-}
-
-.intro-text{
-    text-align:center;
-    font-size:18px;
-    line-height:1.7;
-}
-
-.separator{
-    height:4px;
-    background:#8dd0ff;
-    width:100%;
-    margin:35px 0;
-}
-
-.feature-row{
-    display:flex;
-    justify-content:space-between;
-    text-align:center;
-}
-
-.feature img{
-    height:95px;
-}
-.feature-title{
-    margin-top:10px;
-    font-size:26px;
-    font-weight:700;
-}
-.feature-desc{
-    width:260px;
-    margin:auto;
-    font-size:17px;
-    color:#555;
-}
-
-/* FOOTER */
-.footer{
-    background:white;
-    padding:40px 40px 55px;
-    display:flex;
-    justify-content:center;
-    gap:120px;
-}
-
-.footer img{
-    height:70px;
-}
-
-/* ---- LOGIN MODAL ---- */
-#overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,0.45);
-  display:none;
-  z-index:5;
-}
-
-#loginModal{
-  position:fixed;
-  left:50%;
-  top:50%;
-  transform:translate(-50%,-50%);
-  width:430px;
-  background:white;
-  border-radius:6px;
-  box-shadow:0 0 18px rgba(0,0,0,0.35);
-  display:none;
-  z-index:10;
-  overflow:hidden;
-}
-
-.modal-header{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  padding:12px 18px;
-  border-bottom:1px solid #ddd;
-  font-size:17px;
-  font-weight:600;
-}
-
-.modal-header span{
-  cursor:pointer;
-  font-size:20px;
-}
-
-.modal-body{
-  padding:35px 40px;
-}
-
-.modal-body h2{
-  text-align:center;
-  margin-top:0;
-}
-
-.input{
-  width:100%;
-  padding:12px;
-  border-radius:4px;
-  outline:none;
-  margin-bottom:15px;
-  border:1px solid #b7d5ec;
-}
-
-.input.pass{
-  border:1px solid #d3d3d3;
-}
-
-.login-btn{
-  width:100%;
-  padding:12px;
-  border:none;
-  background:#d3e7f6;
-  border-radius:4px;
-  cursor:pointer;
-  font-size:16px;
-}
-
-.create{
-  text-align:right;
-  margin-top:12px;
-}
-
-.create a{
-  color:#0b6aa8;
-  text-decoration:none;
-}
-
-/* ------------- RESPONSIVE = TELEFON ------------- */
-
-@media(max-width:900px){
+    /* Page */
+    .page{
+      width:100%;
+      max-width: 520px;
+      margin: 0 auto;
+    }
 
     .hero{
-        flex-direction:column;
-        gap:35px;
-        padding-top:25px;
+      padding: 10px 0 2px 0;
     }
 
-    .hero-circles{
-        gap:18px;
+    .hero-row{
+      display:flex;
+      justify-content: center;
+      gap: 14px;
+      padding: 10px 14px 6px;
+    }
+    .hero-badge{
+      width: 118px; height: 118px;
+      border-radius: 999px;
+      overflow:hidden;
+      background:#dbe1e6;
+      box-shadow: inset 0 0 0 6px rgba(0,0,0,.02);
+    }
+    .hero-badge img{
+      width:100%;
+      height:100%;
+      object-fit: cover;
     }
 
-    .hero-circles img{
-        width:200px;
-        height:200px;
+    /* Login choices */
+    .login-choices{
+      display:flex;
+      flex-direction:column;
+      align-items:flex-start;
+      gap: 10px;
+      padding: 6px 0 14px 44px;
     }
 
-    .hero-logins img{
-        width:200px;
-        margin-left:10px;
+    .choice{
+      background: transparent;
+      border: 0;
+      padding: 0;
+      cursor: pointer;
     }
 
-    .card{
-        max-width:95%;
-        padding:25px 15px;
+    .choice-parent img{
+      height: 34px;
+      width:auto;
+      display:block;
     }
 
-    .feature-row{
-        flex-direction:column;
-        gap:35px;
+    .choice-elev{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      height: 34px;
+      padding: 0 14px 0 6px;
+      border: 2px solid rgba(48,153,201,.75);
+      border-radius: 3px;
+      background: rgba(255,255,255,.7);
+      box-shadow: 0 1px 0 rgba(0,0,0,.03);
+    }
+    .choice-avatar{
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      overflow:hidden;
+      border: 2px solid rgba(48,153,201,.75);
+      background:#fff;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .choice-avatar img{
+      width: 28px;
+      height: 28px;
+      object-fit: cover;
+      display:block;
+    }
+    .choice-label{
+      font-style: italic;
+      font-size: 22px;
+      letter-spacing: .5px;
+      color: rgba(48,153,201,.9);
+      line-height: 1;
     }
 
-    /* FOOTER FIX PERFECT PE TELEFON */
+    /* Card */
+    .info-card{
+      width: calc(100% - 40px);
+      margin: 10px auto 0;
+      background: var(--card);
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: var(--shadow);
+      padding: 18px 16px 16px;
+    }
+    .intro{
+      margin: 0 10px 18px;
+      text-align: center;
+      line-height: 1.45;
+      color: #3b3b3b;
+      font-size: 13px;
+    }
+    .feature{
+      text-align:center;
+      padding: 10px 0;
+    }
+    .feature-icon{
+      width: 52px;
+      height: 52px;
+      object-fit: contain;
+      margin: 0 auto 8px;
+      display:block;
+    }
+    .feature-title{
+      font-weight: 700;
+      color:#2f2f2f;
+      margin-bottom: 6px;
+    }
+    .feature-sub{
+      color: #6a6a6a;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+    .sep{
+      height: 2px;
+      background: var(--line);
+      width: 78%;
+      margin: 12px auto;
+    }
+
+    /* Footer */
     .footer{
-        flex-direction:column;
-        gap:25px;
-        padding:25px 0 40px;
-        align-items:center;
+      margin-top: 16px;
+      padding: 18px 0 28px;
+    }
+    .footer-wrap{
+      width: calc(100% - 40px);
+      margin: 0 auto;
+      text-align:center;
+    }
+    .mec-logo{
+      width: 82%;
+      max-width: 420px;
+      height:auto;
+      margin: 10px auto 12px;
+      display:block;
+      opacity: .95;
+    }
+    .footer-cards{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      gap: 12px;
+    }
+    .footer-card{
+      width: 68%;
+      background:#fff;
+      border: 1px solid rgba(0,0,0,.08);
+      box-shadow: 0 1px 0 rgba(0,0,0,.04);
+      padding: 12px;
+    }
+    .footer-card img{
+      width: 100%;
+      height: auto;
+      display:block;
+    }
+    .to-top{
+      margin-top: 14px;
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      border: 1px solid rgba(0,0,0,.12);
+      background:#fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,.08);
+      color:#777;
+      cursor:pointer;
     }
 
-    .footer img{
-        height:55px;
-        width:auto;
+    /* Modal */
+    .modal-backdrop{
+      position:fixed;
+      inset:0;
+      background: rgba(0,0,0,.18);
+      display:flex;
+      align-items:flex-start;
+      justify-content:center;
+      padding: 110px 14px 14px;
+      z-index: 50;
     }
-}
+    .modal{
+      width: min(92vw, 560px);
+      background:#fff;
+      border: 1px solid rgba(0,0,0,.25);
+      border-radius: 2px;
+      box-shadow: 0 16px 60px rgba(0,0,0,.25);
+      overflow:hidden;
+    }
+    .modal-head{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding: 16px 18px;
+      border-bottom: 2px solid rgba(0,0,0,.06);
+      font-size: 32px;
+      font-weight: 500;
+    }
+    .modal-head-title{
+      font-size: 32px;
+      font-weight: 500;
+    }
+    .modal-close{
+      width: 48px;
+      height: 48px;
+      border: 0;
+      background:transparent;
+      font-size: 42px;
+      line-height: 1;
+      cursor:pointer;
+      color:#333;
+    }
+    .modal-body{
+      padding: 90px 18px 32px;
+      min-height: 520px;
+    }
+    .modal-h2{
+      margin: 0 0 46px;
+      text-align:center;
+      font-size: 54px;
+      font-weight: 500;
+      color: #5a5a5a;
+    }
+    .login-form{
+      width: min(86%, 520px);
+      margin: 0 auto;
+      position:relative;
+    }
+    .field{
+      display:flex;
+      align-items:center;
+      gap: 10px;
+      height: 66px;
+      border: 2px solid rgba(0,0,0,.12);
+      border-radius: 3px;
+      padding: 0 16px;
+      margin-bottom: 16px;
+      background:#fafafa;
+    }
+    .field-primary{
+      border-color: rgba(48,153,201,.75);
+      background:#fff;
+    }
+    .field-icon{
+      width: 34px;
+      height: 34px;
+      display:block;
+      background-repeat:no-repeat;
+      background-position:center;
+      background-size: 26px 26px;
+      opacity: .95;
+    }
+    .field-icon-user{ background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%233099C9' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M20 21a8 8 0 0 0-16 0'/><circle cx='12' cy='7' r='4'/></svg>"); }
+    .field-icon-key{ background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='%23777777' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><path d='M21 2l-2 2'/><path d='M7.5 14.5a4.5 4.5 0 1 1 3.5-7.3L21 2'/><path d='M14 8l2 2'/><path d='M15 9l-2 2'/></svg>"); }
+    .field input{
+      border: 0;
+      outline: none;
+      background:transparent;
+      width: 100%;
+      font-size: 34px;
+      color:#333;
+    }
+    .field input::placeholder{
+      color:#8a8a8a;
+    }
+    .btn-login{
+      width: 100%;
+      height: 78px;
+      border: 2px solid rgba(48,153,201,.25);
+      background: var(--brand-soft);
+      color:#1d566d;
+      font-size: 34px;
+      cursor:pointer;
+      margin-top: 10px;
+    }
+    .create-account{
+      position:absolute;
+      right: 0;
+      bottom: -54px;
+      color: var(--brand);
+      text-decoration:none;
+      font-size: 28px;
+    }
+    .create-account:active,
+    .create-account:hover{ text-decoration: underline; }
 
-</style>
-
+    /* Small screens */
+    @media (max-width: 360px){
+      .brand{ height: 86px; padding: 12px 14px;}
+      .brand-title{ font-size: 26px; }
+      .brand-sub{ font-size: 20px; }
+      .login-choices{ padding-left: 42px; }
+      .info-card{ width: calc(100% - 36px); }
+      .modal-body{ padding-top: 80px; min-height: 480px; }
+      .modal-h2{ font-size: 44px; }
+      .field input{ font-size: 30px; }
+      .btn-login{ font-size: 30px; height: 72px; }
+      .create-account{ font-size: 24px; }
+    }
+  </style>
 </head>
 <body>
-
-<header class="topbar">
-    <img src="logo_AgendaElectronica_white.png">
-</header>
-
-<section class="hero">
-    <div class="hero-circles">
-        <img src="gen-blue.png">
-        <img src="pt-grey.png">
+  <header class="topbar">
+    <div class="brand">
+      <div class="brand-mark" aria-hidden="true">
+        <span class="brand-a">A</span>
+      </div>
+      <div class="brand-text">
+        <div class="brand-title">AGENDA</div>
+        <div class="brand-sub">ELECTRONICĂ</div>
+      </div>
     </div>
+  </header>
 
-    <div class="hero-logins">
-        <img src="Parinte_login_btn_small.png" onclick="openModal('parinte')">
-        <img src="Elev_login_btn_small.png" onclick="openModal('elev')">
+  <main class="page">
+    <section class="hero">
+      <div class="hero-row">
+        <div class="hero-badge">
+          <img src="gen-blue.png" alt="Învățământ liceal" />
+        </div>
+        <div class="hero-badge">
+          <img src="pt-grey.png" alt="Învățământ Profesional Tehnic" />
+        </div>
+      </div>
+
+      <div class="login-choices">
+        <button class="choice choice-parent" type="button" data-open-login="parinte" aria-label="Autentificare părinte">
+          <img src="Parinte_login_btn_small.png" alt="Părinte" />
+        </button>
+
+        <button class="choice choice-elev" type="button" data-open-login="elev" aria-label="Autentificare elev">
+          <span class="choice-avatar">
+            <img src="paginapublica_card_elevi_f.png" alt="" />
+          </span>
+          <span class="choice-label">Elev</span>
+        </button>
+      </div>
+    </section>
+
+    <section class="info-card">
+      <p class="intro">
+        Agenda Electronică este o platformă modernă și intuitivă creată pentru a vă sprijini pe voi, elevii, și pe părinții voștri în monitorizarea activității școlare.<br/>
+        Indiferent dacă este vorba de orar, note sau evenimente școlare, Agenda Electronică vă oferă acces rapid și facil de pe telefon sau calculator.
+      </p>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_agenda.png" alt="" />
+        <div class="feature-title">Agenda</div>
+        <div class="feature-sub">Consultați orarul</div>
+      </div>
+      <div class="sep"></div>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_temesilectii.png" alt="" />
+        <div class="feature-title">Teme și lecții</div>
+        <div class="feature-sub">Urmăriți în timp real lista temelor<br/>și lecțiile de făcut</div>
+      </div>
+      <div class="sep"></div>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_absente.png" alt="" />
+        <div class="feature-title">Absențe</div>
+        <div class="feature-sub">Vizualizarea absențelor</div>
+      </div>
+      <div class="sep"></div>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_rezultate.png" alt="" />
+        <div class="feature-title">Rezultate</div>
+        <div class="feature-sub">Monitorizarea reușitei școlare</div>
+      </div>
+      <div class="sep"></div>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_mesaje.png" alt="" />
+        <div class="feature-title">Mesaje</div>
+        <div class="feature-sub">Fiți la curent cu ceea ce se întâmplă la școală sau în clasă.<br/>Ținem legătura!</div>
+      </div>
+      <div class="sep"></div>
+
+      <div class="feature">
+        <img class="feature-icon" src="paginapublica_mesaje (1).png" alt="" />
+        <div class="feature-title">Profesori</div>
+        <div class="feature-sub">Discipline și cadre didactice</div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <div class="footer-wrap">
+        <img class="mec-logo" src="MEC_log.png" alt="Ministerul Educației și Cercetării" />
+        <div class="footer-cards">
+          <div class="footer-card">
+            <img src="logo_EU4Moldova_Local-01.png" alt="EU4Moldova" />
+          </div>
+          <div class="footer-card">
+            <img src="EU_Logo_RO.png" alt="Finanțat de Uniunea Europeană" />
+          </div>
+          <div class="footer-card">
+            <img src="ADC_LOGO_JPG.png" alt="Austrian Development Cooperation" />
+          </div>
+        </div>
+        <button class="to-top" type="button" aria-label="Sus">^</button>
+      </div>
+    </footer>
+  </main>
+
+  <div class="modal-backdrop" id="loginBackdrop" hidden>
+    <div class="modal" role="dialog" aria-modal="true" aria-labelledby="loginTitle">
+      <div class="modal-head">
+        <div class="modal-head-title" id="loginTitle">Autentificare</div>
+        <button class="modal-close" type="button" data-close aria-label="Închide">×</button>
+      </div>
+
+      <div class="modal-body">
+        <h2 class="modal-h2" id="loginRoleTitle">Autentificare elev</h2>
+
+        <form class="login-form" action="#" method="post" onsubmit="return false;">
+          <label class="field field-primary">
+            <span class="field-icon field-icon-user" aria-hidden="true"></span>
+            <input type="text" placeholder="username" autocomplete="username" inputmode="text" />
+          </label>
+
+          <label class="field">
+            <span class="field-icon field-icon-key" aria-hidden="true"></span>
+            <input type="password" placeholder="password" autocomplete="current-password" />
+          </label>
+
+          <button class="btn-login" type="button">Autentificare</button>
+
+          <a class="create-account" href="#" onclick="return false;">Creează cont</a>
+        </form>
+      </div>
     </div>
-</section>
+  </div>
 
-<section class="card">
+  <script>
+    (() => {
+      const backdrop = document.getElementById('loginBackdrop');
+      const roleTitle = document.getElementById('loginRoleTitle');
+      const toTop = document.querySelector('.to-top');
 
-<p class="intro-text">
-Agenda Electronică este o platformă modernă și intuitivă creată pentru a vă sprijini pe voi,
-elevii, și pe părinții voștri în monitorizarea activității școlare. Indiferent dacă este
-vorba de orar, note sau evenimente școlare, Agenda Electronică vă oferă acces rapid și facil
-de pe telefon sau calculator.
-</p>
+      const open = (role) => {
+        roleTitle.textContent = role === 'parinte' ? 'Autentificare părinte' : 'Autentificare elev';
+        backdrop.hidden = false;
+        document.body.style.overflow = 'hidden';
+        const first = backdrop.querySelector('input');
+        if (first) setTimeout(() => first.focus(), 50);
+      };
 
-<div class="separator"></div>
+      const close = () => {
+        backdrop.hidden = true;
+        document.body.style.overflow = '';
+      };
 
-<div class="feature-row">
+      document.addEventListener('click', (e) => {
+        const btn = e.target.closest('[data-open-login]');
+        if (btn) {
+          open(btn.getAttribute('data-open-login'));
+          return;
+        }
 
-<div class="feature">
-<img src="paginapublica_agenda.png">
-<p class="feature-title">Agenda</p>
-<p class="feature-desc">Consultați orarul</p>
-</div>
+        if (e.target.matches('[data-close]')) {
+          close();
+          return;
+        }
 
-<div class="feature">
-<img src="paginapublica_temesilectii.png">
-<p class="feature-title">Teme și lecții</p>
-<p class="feature-desc">Urmăriți în timp real lista temelor și lecțiile de făcut</p>
-</div>
+        if (!backdrop.hidden && e.target === backdrop) {
+          close();
+          return;
+        }
 
-<div class="feature">
-<img src="paginapublica_absente.png">
-<p class="feature-title">Absențe</p>
-<p class="feature-desc">Vizualizarea absențelor</p>
-</div>
+        if (e.target === toTop) {
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+      });
 
-</div>
-
-<div class="separator"></div>
-
-<div class="feature-row">
-
-<div class="feature">
-<img src="paginapublica_rezultate.png">
-<p class="feature-title">Rezultate</p>
-<p class="feature-desc">Monitorizarea reușitei școlare</p>
-</div>
-
-<div class="feature">
-<img src="paginapublica_mesaje.png">
-<p class="feature-title">Mesaje</p>
-<p class="feature-desc">
-Fiți la curent cu ceea ce se întâmplă la școală sau în clasă. Ținem legătura!
-</p>
-</div>
-
-<div class="feature">
-<img src="paginapublica_mesaje (1).png">
-<p class="feature-title">Profesori</p>
-<p class="feature-desc">Discipline și cadre didactice</p>
-</div>
-
-</div>
-
-</section>
-
-<footer class="footer">
-    <img src="MEC_log.png">
-    <img src="logo_EU4Moldova_Local-01.png">
-    <img src="EU_Logo_RO.png">
-    <img src="ADC_LOGO_JPG.png">
-</footer>
-
-<!-- OVERLAY -->
-<div id="overlay"></div>
-
-<!-- MODAL -->
-<div id="loginModal">
-
-<div class="modal-header">
-    Autentificare
-    <span onclick="closeModal()">✕</span>
-</div>
-
-<div class="modal-body">
-    <h2 id="modalTitle">Autentificare părinte</h2>
-
-    <input class="input" type="text" placeholder="username">
-    <input class="input pass" type="password" placeholder="password">
-
-    <button class="login-btn" onclick="goDashboard()">Autentificare</button>
-
-    <div class="create">
-        <a href="#">Creează cont</a>
-    </div>
-</div>
-
-</div>
-
-<script>
-function goDashboard(){
-  window.location.href = "dashboard.html";
-}
-function openModal(type){
-  document.getElementById("overlay").style.display="block";
-  document.getElementById("loginModal").style.display="block";
-
-  if(type==="parinte"){
-      document.getElementById("modalTitle").innerText="Autentificare părinte";
-  } else {
-      document.getElementById("modalTitle").innerText="Autentificare elev";
-  }
-}
-function closeModal(){
-  document.getElementById("overlay").style.display="none";
-  document.getElementById("loginModal").style.display="none";
-}
-</script>
-
+      document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape' && !backdrop.hidden) close();
+      });
+    })();
+  </script>
 </body>
 </html>
